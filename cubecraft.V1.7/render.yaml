@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: block-platform
+    runtime: node
+    # Saved worlds need a persistent disk, and Render only offers disks on paid plans.
+    # On "plan: free" (and without the disk below) saves are lost whenever the service sleeps, restarts or redeploys.
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: block-data
+      mountPath: /var/data
+      sizeGB: 1
